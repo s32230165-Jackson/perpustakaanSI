@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Data Buku{% endblock %}
+{% block content %}
+<div class="head"><h1>Master Buku</h1><a class="btn primary" href="/buku/tambah">+ Tambah buku</a></div>
+<form class="search" method="get">
+  <input name="q" value="{{ q }}" placeholder="Cari kode, judul, penulis, kategori…">
+  <button class="btn">Cari</button>
+</form>
+<div class="card scroll">
+<table>
+  <tr><th>Kode</th><th>Judul</th><th>Penulis</th><th>Penerbit</th><th>Tahun</th><th>Kategori</th><th>Stok</th><th></th></tr>
+  {% for b in rows %}
+  <tr>
+    <td>{{ b.kode }}</td><td>{{ b.judul }}</td><td>{{ b.penulis }}</td><td>{{ b.penerbit }}</td>
+    <td>{{ b.tahun or '-' }}</td><td>{{ b.kategori }}</td>
+    <td><span class="badge {{ 'terlambat' if b.stok == 0 else 'dikembalikan' }}">{{ b.stok }}</span></td>
+    <td class="actions">
+      <a class="btn sm" href="/buku/{{ b.id }}/edit">Edit</a>
+      <form method="post" action="/buku/{{ b.id }}/hapus" onsubmit="return confirm('Hapus buku ini?')">
+        <button class="btn sm danger">Hapus</button></form>
+    </td>
+  </tr>
+  {% else %}<tr><td colspan="8" class="muted">Tidak ada data.</td></tr>{% endfor %}
+</table>
+</div>
+{% endblock %}

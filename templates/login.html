@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="card auth-card">
+  <h1>📚 Masuk</h1>
+  <p class="muted">Sistem Informasi Perpustakaan</p>
+  <form method="post" action="/login">
+    <label>Username <input name="username" required autofocus></label>
+    <label>Password <input name="password" type="password" required></label>
+    <button class="btn primary" type="submit">Masuk</button>
+  </form>
+  <p class="muted">Belum punya akun? <a href="/register">Daftar</a></p>
+  <p class="muted small">Akun awal: <code>admin</code> / <code>admin123</code> (segera ganti di produksi)</p>
+</div>
+{% endblock %}

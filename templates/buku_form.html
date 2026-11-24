@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if item else 'Tambah' }} Buku{% endblock %}
+{% block content %}
+<h1>{{ 'Edit' if item else 'Tambah' }} Buku</h1>
+<form class="card form" method="post" action="{{ '/buku/%d/edit' % item.id if item else '/buku/tambah' }}">
+  <label>Kode <input name="kode" value="{{ item.kode if item else '' }}" required></label>
+  <label>Judul <input name="judul" value="{{ item.judul if item else '' }}" required></label>
+  <label>Penulis <input name="penulis" value="{{ item.penulis if item else '' }}"></label>
+  <label>Penerbit <input name="penerbit" value="{{ item.penerbit if item else '' }}"></label>
+  <label>Tahun <input name="tahun" type="number" min="1000" max="2100" value="{{ item.tahun if item and item.tahun else '' }}"></label>
+  <label>Kategori <input name="kategori" value="{{ item.kategori if item else 'Umum' }}"></label>
+  <label>Stok <input name="stok" type="number" min="0" value="{{ item.stok if item else 1 }}" required></label>
+  <div class="row"><button class="btn primary">Simpan</button> <a class="btn" href="/buku">Batal</a></div>
+</form>
+{% endblock %}

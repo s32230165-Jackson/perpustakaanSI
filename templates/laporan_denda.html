@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Laporan Denda{% endblock %}
+{% block content %}
+<div class="head"><h1>Laporan Denda</h1>
+  <button class="btn primary no-print" onclick="window.print()">Cetak / PDF</button></div>
+<div class="stats">
+  <div class="stat"><span>{{ total_lunas|rupiah }}</span>Denda dari buku yang sudah kembali</div>
+  <div class="stat warn"><span>{{ total_berjalan|rupiah }}</span>Denda berjalan (belum kembali)</div>
+</div>
+<div class="card scroll">
+<table>
+  <tr><th>No</th><th>Anggota</th><th>Buku</th><th>Jatuh tempo</th><th>Kembali</th><th>Hari telat</th><th>Denda</th><th>Keterangan</th></tr>
+  {% for p in rows %}
+  <tr><td>{{ loop.index }}</td><td>{{ p.anggota.nama }}</td><td>{{ p.buku.judul }}</td>
+      <td>{{ p.tgl_jatuh_tempo|tgl }}</td><td>{{ p.tgl_kembali|tgl }}</td>
+      <td>{{ p.hari_terlambat }}</td><td>{{ p.denda_efektif|rupiah }}</td>
+      <td>{{ 'Final' if p.tgl_kembali else 'Masih berjalan' }}</td></tr>
+  {% else %}<tr><td colspan="8" class="muted">Belum ada denda.</td></tr>{% endfor %}
+</table>
+</div>
+{% endblock %}

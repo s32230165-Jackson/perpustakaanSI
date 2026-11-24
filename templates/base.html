@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Perpustakaan{% endblock %} · SI Perpustakaan</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+{% if user %}
+<header class="topbar no-print">
+  <a class="brand" href="/">📚 SI Perpustakaan</a>
+  <nav>
+    <a href="/">Dashboard</a>
+    <a href="/buku">Buku</a>
+    <a href="/anggota">Anggota</a>
+    <a href="/peminjaman">Peminjaman</a>
+    <a href="/laporan/peminjaman">Laporan</a>
+    <a href="/laporan/denda">Denda</a>
+  </nav>
+  <div class="who">{{ user.nama }} · <a href="/logout">Keluar</a></div>
+</header>
+{% endif %}
+<main class="{{ 'auth' if not user else '' }}">
+  {% if flash %}<div class="flash {{ flash.kind }}">{{ flash.msg }}</div>{% endif %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

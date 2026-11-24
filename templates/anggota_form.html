@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if item else 'Tambah' }} Anggota{% endblock %}
+{% block content %}
+<h1>{{ 'Edit' if item else 'Tambah' }} Anggota</h1>
+<form class="card form" method="post" action="{{ '/anggota/%d/edit' % item.id if item else '/anggota/tambah' }}">
+  <label>Kode <input name="kode" value="{{ item.kode if item else '' }}" required></label>
+  <label>Nama <input name="nama" value="{{ item.nama if item else '' }}" required></label>
+  <label>Email <input name="email" type="email" value="{{ item.email if item else '' }}"></label>
+  <label>Telepon <input name="telepon" value="{{ item.telepon if item else '' }}"></label>
+  <label>Alamat <textarea name="alamat" rows="3">{{ item.alamat if item else '' }}</textarea></label>
+  <div class="row"><button class="btn primary">Simpan</button> <a class="btn" href="/anggota">Batal</a></div>
+</form>
+{% endblock %}

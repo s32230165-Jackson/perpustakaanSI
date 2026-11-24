@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Peminjaman Baru{% endblock %}
+{% block content %}
+<h1>Peminjaman Baru</h1>
+<form class="card form" method="post" action="/peminjaman/tambah">
+  <label>Anggota
+    <select name="anggota_id" required>
+      <option value="">— pilih anggota —</option>
+      {% for a in anggota %}<option value="{{ a.id }}">{{ a.kode }} · {{ a.nama }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Buku (hanya yang stoknya tersedia)
+    <select name="buku_id" required>
+      <option value="">— pilih buku —</option>
+      {% for b in buku %}<option value="{{ b.id }}">{{ b.kode }} · {{ b.judul }} (stok {{ b.stok }})</option>{% endfor %}
+    </select>
+  </label>
+  <label>Lama pinjam (hari) <input name="lama" type="number" min="1" max="60" value="7" required></label>
+  <p class="muted small">Denda keterlambatan: {{ denda_per_hari|rupiah }} per hari.</p>
+  <div class="row"><button class="btn primary">Simpan</button> <a class="btn" href="/peminjaman">Batal</a></div>
+</form>
+{% endblock %}

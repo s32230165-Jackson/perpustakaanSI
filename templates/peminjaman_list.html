@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Peminjaman{% endblock %}
+{% block content %}
+<div class="head"><h1>Transaksi Peminjaman</h1><a class="btn primary" href="/peminjaman/tambah">+ Peminjaman baru</a></div>
+<div class="tabs">
+  <a class="{{ 'on' if not status }}" href="/peminjaman">Semua</a>
+  <a class="{{ 'on' if status == 'dipinjam' }}" href="/peminjaman?status=dipinjam">Dipinjam</a>
+  <a class="{{ 'on' if status == 'terlambat' }}" href="/peminjaman?status=terlambat">Terlambat</a>
+  <a class="{{ 'on' if status == 'dikembalikan' }}" href="/peminjaman?status=dikembalikan">Dikembalikan</a>
+</div>
+<div class="card scroll">
+<table>
+  <tr><th>#</th><th>Anggota</th><th>Buku</th><th>Pinjam</th><th>Jatuh tempo</th><th>Kembali</th><th>Status</th><th>Denda</th><th></th></tr>
+  {% for p in rows %}
+  <tr>
+    <td>{{ p.id }}</td><td>{{ p.anggota.nama }}</td><td>{{ p.buku.judul }}</td>
+    <td>{{ p.tgl_pinjam|tgl }}</td><td>{{ p.tgl_jatuh_tempo|tgl }}</td><td>{{ p.tgl_kembali|tgl }}</td>
+    <td><span class="badge {{ p.status }}">{{ p.status }}</span></td>
+    <td>{{ p.denda_efektif|rupiah if p.denda_efektif else '-' }}</td>
+    <td class="actions">
+      {% if not p.tgl_kembali %}
+      <form method="post" action="/peminjaman/{{ p.id }}/kembali" onsubmit="return confirm('Proses pengembalian buku ini?')">
+        <button class="btn sm primary">Kembalikan</button></form>
+      {% endif %}
+      <form method="post" action="/peminjaman/{{ p.id }}/hapus" onsubmit="return confirm('Hapus transaksi ini?')">
+        <button class="btn sm danger">Hapus</button></form>
+    </td>
+  </tr>
+  {% else %}<tr><td colspan="9" class="muted">Tidak ada data.</td></tr>{% endfor %}
+</table>
+</div>
+{% endblock %}

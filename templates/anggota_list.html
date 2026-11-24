@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Data Anggota{% endblock %}
+{% block content %}
+<div class="head"><h1>Master Anggota</h1><a class="btn primary" href="/anggota/tambah">+ Tambah anggota</a></div>
+<form class="search" method="get">
+  <input name="q" value="{{ q }}" placeholder="Cari kode, nama, email…">
+  <button class="btn">Cari</button>
+</form>
+<div class="card scroll">
+<table>
+  <tr><th>Kode</th><th>Nama</th><th>Email</th><th>Telepon</th><th>Alamat</th><th></th></tr>
+  {% for a in rows %}
+  <tr>
+    <td>{{ a.kode }}</td><td>{{ a.nama }}</td><td>{{ a.email }}</td><td>{{ a.telepon }}</td><td>{{ a.alamat }}</td>
+    <td class="actions">
+      <a class="btn sm" href="/anggota/{{ a.id }}/edit">Edit</a>
+      <form method="post" action="/anggota/{{ a.id }}/hapus" onsubmit="return confirm('Hapus anggota ini?')">
+        <button class="btn sm danger">Hapus</button></form>
+    </td>
+  </tr>
+  {% else %}<tr><td colspan="6" class="muted">Tidak ada data.</td></tr>{% endfor %}
+</table>
+</div>
+{% endblock %}

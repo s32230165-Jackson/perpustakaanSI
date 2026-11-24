@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="stats">
+  <div class="stat"><span>{{ stats.buku }}</span>Judul buku</div>
+  <div class="stat"><span>{{ stats.stok }}</span>Eksemplar tersedia</div>
+  <div class="stat"><span>{{ stats.anggota }}</span>Anggota</div>
+  <div class="stat"><span>{{ stats.aktif }}</span>Sedang dipinjam</div>
+  <div class="stat warn"><span>{{ stats.terlambat }}</span>Terlambat</div>
+  <div class="stat"><span>{{ stats.denda_terkumpul|rupiah }}</span>Denda terkumpul</div>
+  <div class="stat warn"><span>{{ stats.denda_berjalan|rupiah }}</span>Denda berjalan</div>
+</div>
+
+<div class="grid2">
+  <section class="card">
+    <h2>Peminjaman terbaru</h2>
+    <table>
+      <tr><th>Anggota</th><th>Buku</th><th>Status</th></tr>
+      {% for p in terbaru %}
+      <tr><td>{{ p.anggota.nama }}</td><td>{{ p.buku.judul }}</td>
+          <td><span class="badge {{ p.status }}">{{ p.status }}</span></td></tr>
+      {% else %}<tr><td colspan="3" class="muted">Belum ada transaksi.</td></tr>{% endfor %}
+    </table>
+    <a class="btn" href="/peminjaman/tambah">+ Peminjaman baru</a>
+  </section>
+
+  <section class="card">
+    <h2>Perlu ditagih (terlambat)</h2>
+    <table>
+      <tr><th>Anggota</th><th>Buku</th><th>Telat</th></tr>
+      {% for p in terlambat %}
+      <tr><td>{{ p.anggota.nama }}</td><td>{{ p.buku.judul }}</td><td>{{ p.hari_terlambat }} hari</td></tr>
+      {% else %}<tr><td colspan="3" class="muted">Tidak ada keterlambatan 🎉</td></tr>{% endfor %}
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>Buku terpopuler</h2>
+    {% set maks = (populer[0].n if populer else 1) %}
+    {% for judul, n in populer %}
+    <div class="bar-row"><span>{{ judul }}</span>
+      <div class="bar"><i style="width: {{ (n / maks * 100)|round|int }}%"></i></div><b>{{ n }}</b></div>
+    {% else %}<p class="muted">Belum ada data.</p>{% endfor %}
+  </section>
+</div>
+{% endblock %}
